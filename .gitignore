@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / runtime
+*.log
+logs/
+tmp/
+.cache/
+
+# Secrets / cloud credentials
+*.pem
+*.key
+*service-account*.json
+*credentials*.json
+.gcloud/
+
+# Local data / databases
+*.db
+*.sqlite
+*.sqlite3
+*.parquet
+*.avro
+
+# Build
+build/
+dist/
+*.egg-info/
