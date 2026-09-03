@@ -1,60 +1,45 @@
 # Banking Warehouse Performance & Reconciliation Automation
 
-A synthetic financial-data project demonstrating **warehouse SQL design, recurring query optimization patterns, reusable reporting datasets, and automated source-to-target reconciliation**.
+A synthetic banking data-engineering project demonstrating **source-to-target reconciliation, reusable reporting datasets, star-schema concepts, and query-optimization patterns**.
 
-> The repository uses synthetic transactions and generic schemas. It contains no bank/customer production data or employer code.
+## Verified local workflow
+
+```bash
+python src/reconcile.py --source data/source_transactions.csv --target data/warehouse_transactions.csv
+python src/build_demo_warehouse.py
+python -m unittest discover -s tests -v
+```
+
+`build_demo_warehouse.py` creates a temporary/local SQLite warehouse, loads synthetic transactions, executes an indexed customer summary query, and prints the result.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    SRC[Source transaction extracts] --> ETL[Python / SQL preparation]
-    ETL --> WH[(PostgreSQL / Redshift / Snowflake pattern)]
-    WH --> MODEL[Reusable customer & financial models]
-    MODEL --> DASH[Recurring analytical dashboards]
-    SRC --> REC[Reconciliation]
-    WH --> REC
-    CI[GitHub Actions] --> REC
-```
-
-## What is implemented
-
-- synthetic customer/transaction data;
-- Python control-total and transaction-set reconciliation;
-- portable star-schema SQL;
-- reusable monthly customer aggregation query;
-- window-function example for rolling metrics;
-- documentation explaining warehouse-specific performance considerations;
-- CI validation.
-
-## Run locally
-
-```bash
-python -m venv .venv
-# activate environment
-pip install -r requirements.txt
-pytest -q
-python src/reconcile.py --source data/source_transactions.csv --target data/warehouse_transactions.csv
+  S[Source transactions] --> V[Validation / reconciliation]
+  S --> L[Warehouse load]
+  L --> F[Fact transactions]
+  F --> R[Reusable customer summary]
+  V --> C[Control totals]
 ```
 
 ## Reconciliation controls
 
-The automated control checks:
-
-- source and target row counts;
-- source and target transaction-ID sets;
+- row counts;
+- transaction-ID set equality;
+- duplicate IDs;
 - amount control totals;
-- duplicate transaction IDs.
+- required-column validation;
+- invalid numeric amount detection.
 
-## SQL folders
+## SQL examples
 
-- `01_star_schema.sql` — portable dimensional model skeleton
-- `02_optimized_customer_summary.sql` — pre-aggregation + rolling metrics
-- `03_reconciliation.sql` — simple warehouse-side controls
+- [`sql/01_star_schema.sql`](sql/01_star_schema.sql): generic warehouse design
+- [`sql/02_optimized_customer_summary.sql`](sql/02_optimized_customer_summary.sql): recurring monthly summary and rolling metric pattern
+- [`sql/03_reconciliation.sql`](sql/03_reconciliation.sql): warehouse control totals
+- [`sql/sqlite_demo.sql`](sql/sqlite_demo.sql): executable local/indexed example
 
-## Technologies represented
-
-Python · SQL · PostgreSQL · Amazon Redshift · Snowflake · Query Optimization · Dimensional Modeling · Data Reconciliation · Data Validation · GitHub Actions
+See [`docs/OPTIMIZATION.md`](docs/OPTIMIZATION.md) for performance reasoning and portability notes across PostgreSQL, Redshift, and Snowflake.
 
 ## Author
 

@@ -1,20 +1,38 @@
-# Python
+# Python caches / build
 __pycache__/
 *.py[cod]
-*$py.class
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .coverage
 htmlcov/
+build/
+dist/
+*.egg-info/
 
-# Environments
+# Virtual environments
 .venv/
 venv/
 env/
+
+# Secrets / local config
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*service-account*.json
+*credentials*.json
+.gcloud/
+
+# Runtime output
+*.log
+logs/
+tmp/
+.cache/
+*.db
+*.sqlite
+*.sqlite3
 
 # IDE / OS
 .vscode/
@@ -22,27 +40,4 @@ env/
 .DS_Store
 Thumbs.db
 
-# Logs / runtime
-*.log
-logs/
-tmp/
-.cache/
-
-# Secrets / cloud credentials
-*.pem
-*.key
-*service-account*.json
-*credentials*.json
-.gcloud/
-
-# Local data / databases
-*.db
-*.sqlite
-*.sqlite3
-*.parquet
-*.avro
-
-# Build
-build/
-dist/
-*.egg-info/
+data/local/

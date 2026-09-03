@@ -1,4 +1,4 @@
--- Generic warehouse design; adapt data types to PostgreSQL/Redshift/Snowflake.
+-- Generic warehouse pattern; adapt types/DDL to the target platform.
 create table if not exists dim_customer (
     customer_key bigint,
     customer_id varchar(64) not null,
